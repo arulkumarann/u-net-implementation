@@ -10,7 +10,12 @@ Below is an example of the image segmentation process on a sample car image from
 | <img src="test/input.jpg" width="400" alt="Input Image"> | <img src="test/prediction_output.png" width="400" alt="Input Image"> |
 
 The image on the left is the original input image. The image on the right shows the segmentation mask produced by our U-Net model, where the car is separated from the background.
+## Model Performance
 
+Below is the performance of our trained U-Net model on the Carvana dataset:
+
+
+<img src="/training_metrics.png" width="800" alt="ModelMetrics">
 ## Repository Structure
 
 - `download_data.py`: Script for downloading the dataset.
@@ -90,12 +95,7 @@ To make predictions using the trained model, you need to modify the paths in the
 
 The script will use the specified input image, load the model from the given checkpoint, make a prediction, and save the result to the specified output path.
 
-## Model Performance
 
-Below is the performance of our trained U-Net model on the Carvana dataset:
-
-
-<img src="/training_metrics.png" width="800" alt="ModelMetrics">
 
 
 
