@@ -1,7 +1,8 @@
 .kaggle
 data
-
-
+checkpoints/unet_checkpoint.pth
+checkpoints
+predictions
 
 
 
