@@ -16,6 +16,7 @@ Below is the performance of our trained U-Net model on the Carvana dataset:
 
 
 <img src="/training_metrics.png" width="800" alt="ModelMetrics">
+
 ## Repository Structure
 
 - `download_data.py`: Script for downloading the dataset.
