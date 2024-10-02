@@ -7,12 +7,15 @@ from model import UNet
 import os
 
 def preprocess_image(image_path):
+    image = Image.open(image_path).convert('L')
+    original_size = image.size
     transform = transforms.Compose([
         transforms.Resize((256, 256)),
         transforms.ToTensor(),
     ])
-    image = Image.open(image_path).convert('L')  
-    return transform(image).unsqueeze(0)  
+    processed_image = transform(image).unsqueeze(0)  # Add batch dimension
+
+    return processed_image, original_size
 
 
 def load_model(model_path):
@@ -30,7 +33,7 @@ def make_prediction(model, input_tensor):
 
 
 def save_prediction(input_image_path, model_path, output_image_path):
-    input_image = preprocess_image(input_image_path)
+    input_image, original_size = preprocess_image(input_image_path)
     model = load_model(model_path)
     prediction = make_prediction(model, input_image)
     
@@ -44,14 +47,16 @@ def save_prediction(input_image_path, model_path, output_image_path):
     binary_prediction = (prediction_for_binary > threshold)
     
     binary_image = Image.fromarray(binary_prediction[0].astype(np.uint8) * 255)
-    os.makedirs(os.path.dirname(output_image_path), exist_ok=True)
+    binary_image = binary_image.resize(original_size, Image.NEAREST)  # Use nearest neighbor for segmentation
 
+
+    os.makedirs(os.path.dirname(output_image_path), exist_ok=True)
     binary_image.save(output_image_path)
 
     print(f"Prediction saved at: {output_image_path}")
 
-input_image_path = r"/teamspace/studios/this_studio/u_net_implementation/data/test/test/0a0e3fb8f782_02.jpg"
-model_path = r"/teamspace/studios/this_studio/u_net_implementation/checkpoints/unet_checkpoint.pth"
-output_image_path = r"/teamspace/studios/this_studio/u_net_implementation/predictions/prediction_output.png"
+input_image_path = r"/teamspace/studios/this_studio/u_net_implementation/data/test/test/0a2637c772c5_03.jpg"
+model_path = r"/teamspace/studios/this_studio/u_net_implementation/checkpoints/4.pth"
+output_image_path = r"/teamspace/studios/this_studio/u_net_implementation/predictions/output.png"
 
 save_prediction(input_image_path, model_path, output_image_path)
