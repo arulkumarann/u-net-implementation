@@ -20,8 +20,8 @@ def preprocess_image(image_path):
 
 def load_model(model_path):
     model = UNet()  
-    checkpoint = torch.load(model_path)
-    model.load_state_dict(checkpoint['state_dict'])  
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    checkpoint = torch.load(model_path, map_location=device)    model.load_state_dict(checkpoint['state_dict'])  
     model.eval()  
     return model
 
